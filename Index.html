@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Camera Chat Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        #camera {
+            width: 100%;
+            max-width: 500px;
+            border: 2px solid #ccc;
+        }
+        #chatPage {
+            display: none;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Welcome to the Chat Page</h1>
+    <button onclick="requestCameraPermission()">Enable Camera</button>
+
+    <div id="cameraContainer">
+        <video id="camera" autoplay></video>
+    </div>
+
+    <div id="chatPage">
+        <h2>Your Chat Page</h2>
+        <p>Now you can see your live camera feed above!</p>
+        <!-- Add chat content here -->
+    </div>
+
+    <script>
+        // Function to request camera permission and show the live video
+        function requestCameraPermission() {
+            // Check if the browser supports accessing the media devices
+            if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+                navigator.mediaDevices.getUserMedia({ video: true })
+                    .then(function(stream) {
+                        // Get the video element and set the stream to it
+                        const videoElement = document.getElementById('camera');
+                        videoElement.srcObject = stream;
+                        document.getElementById('chatPage').style.display = 'block'; // Show the chat page
+                        document.getElementById('cameraContainer').style.display = 'block'; // Show camera feed
+                    })
+                    .catch(function(error) {
+                        console.error('Error accessing camera: ', error);
+                        alert('Camera access denied or unavailable');
+                    });
+            } else {
+                alert('Your browser does not support camera access');
+            }
+        }
+    </script>
+</body>
+</html>
